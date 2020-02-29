@@ -6,7 +6,7 @@ plugins {
 
 group = 'hibernate.basics'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
@@ -19,6 +19,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.19'
 }
 
 test {
