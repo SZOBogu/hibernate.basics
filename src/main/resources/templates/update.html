@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+
+<form action="#" th:action="@{/create}" th:object="${personEntity}" method="post">
+    <table>
+        <tr>
+            <td><label>Name</label></td>
+            <td><input type="text" th:field="*{firstName}" /></td>
+<!--            <p th:if="${#fields.hasErrors('name')}" th:errors="*{firstName}"></p>-->
+        </tr>
+        <tr>
+            <td><label>Last Name</label></td>
+            <td><input type="text" th:field="*{lastName}" /></td>
+<!--            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>-->
+        </tr>
+        <tr>
+            <td><label>Email</label></td>
+            <td><input type="text" th:field="*{email}" /></td>
+<!--            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>-->
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit"/></td>
+            <td><input type="reset" value="Reset" /></td>
+        </tr>
+    </table>
+</form>
+
+<a href="/static"> Go back to home page</a><br>
+<a href="/create"> Create Person </a><br>
+<a href="/read"> Read Person </a><br>
+<a href="/delete"> Delete Person </a><br>
+</body>
+</html>

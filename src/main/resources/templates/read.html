@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Read</title>
+</head>
+<body>
+<form action="#" th:action="@{/readEffect}" th:object="${personEntity}" method="post">
+    <table>
+        <tr>
+            <td><label>Id</label></td>
+            <td><input type="text" th:field="*{id}" /></td>
+<!--            <p th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></p>-->
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit"/></td>
+            <td><input type="reset" value="Reset" /></td>
+        </tr>
+    </table>
+</form>
+
+<a href="/"> Go back to home page</a><br>
+<a href="/create"> Create Person </a><br>
+<a href="/update"> Update Person </a><br>
+<a href="/delete"> Delete Person </a><br>
+</body>
+</html>
