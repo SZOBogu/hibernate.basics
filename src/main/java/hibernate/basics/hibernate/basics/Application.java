@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
@@ -23,7 +25,8 @@ public class Application {
 		System.out.println("2. Read person by id");
 		System.out.println("3. Update employee");
 		System.out.println("4. Delete employee");
-		System.out.println("5. Exit");
+		System.out.println("5. Read all persons");
+		System.out.println("6. Exit");
 		System.out.println("=====================");
 
 		int menuChoice = scanner.nextInt();
@@ -71,6 +74,22 @@ public class Application {
 			System.exit(0);
 		}
 		else if(menuChoice == 5) {
+			try {
+				session.getTransaction().begin();
+				List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
+				session.getTransaction().commit();
+				for(int i = 0; i < person.size(); i++) {
+					System.out.println("Name: " + person.get(i).getFirstName());
+					System.out.println("Last Name: " + person.get(i).getLastName());
+					System.out.println("Email: " + person.get(i).getEmail());
+					System.out.println("============");
+				}
+			}
+			finally{
+				factory.close();
+			}
+		}
+		else if(menuChoice == 6) {
 			System.exit(0);
 		}
 		//SpringApplication.run(Application.class, args);
