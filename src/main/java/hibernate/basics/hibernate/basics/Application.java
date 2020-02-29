@@ -28,24 +28,41 @@ public class Application {
 
 		int menuChoice = scanner.nextInt();
 		if(menuChoice == 1) {
-			String skipCatcher = scanner.nextLine();
-			System.out.println("Enter name:");
-			String name = scanner.nextLine();
-			System.out.println("Enter last name:");
-			String lastName = scanner.nextLine();
-			System.out.println("Enter email:");
-			String email = scanner.nextLine();
+			try {
+				String skipCatcher = scanner.nextLine();
+				System.out.println("Enter name:");
+				String name = scanner.nextLine();
+				System.out.println("Enter last name:");
+				String lastName = scanner.nextLine();
+				System.out.println("Enter email:");
+				String email = scanner.nextLine();
 
-			PersonEntity person = new PersonEntity();
-			person.setFirstName(name);
-			person.setLastName(lastName);
-			person.setEmail(email);
-			session.getTransaction().begin();
-			session.persist(person);
-			session.getTransaction().commit();
+				PersonEntity person = new PersonEntity();
+				person.setFirstName(name);
+				person.setLastName(lastName);
+				person.setEmail(email);
+				session.getTransaction().begin();
+				session.save(person);
+				session.getTransaction().commit();
+			}
+			finally{
+				factory.close();
+			}
 		}
 		else if(menuChoice == 2) {
-			System.exit(0);
+			try {
+				System.out.println("Enter id of person you want to check on:");
+				int id = scanner.nextInt();
+				session.getTransaction().begin();
+				PersonEntity person = session.get(PersonEntity.class, id);
+				session.getTransaction().commit();
+				System.out.println("Name: " + person.getFirstName());
+				System.out.println("Last Name: " + person.getLastName());
+				System.out.println("Email: " + person.getEmail());
+			}
+			finally{
+				factory.close();
+			}
 		}
 		else if(menuChoice == 3) {
 			System.exit(0);
