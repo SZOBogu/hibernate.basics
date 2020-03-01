@@ -26,10 +26,11 @@ public class Application {
 
 		System.out.println("1. Create new person");
 		System.out.println("2. Read person by id");
-		System.out.println("3. Update person");
-		System.out.println("4. Delete person");
-		System.out.println("5. Read all persons");
-		System.out.println("6. Exit");
+		System.out.println("3. Read hobby by id");
+		System.out.println("4. Update person");
+		System.out.println("5. Delete person");
+		System.out.println("6. Read all persons");
+		System.out.println("7. Exit");
 		System.out.println("=====================");
 
 		int menuChoice = scanner.nextInt();
@@ -63,7 +64,7 @@ public class Application {
 				factory.close();
 			}
 		}
-		//READ
+		//READ PERSON
 		else if(menuChoice == 2) {
 			try {
 				System.out.println("Enter id of person you want to check on:");
@@ -81,8 +82,26 @@ public class Application {
 				factory.close();
 			}
 		}
-		//UPDATE
+		//READ HOBBY
 		else if(menuChoice == 3) {
+			try {
+				System.out.println("Enter id of person you want to check on:");
+				int id = scanner.nextInt();
+				session.getTransaction().begin();
+				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, id);
+				PersonEntity person = session.get(PersonEntity.class, personHobby.getPersonEntity().getId());
+				session.getTransaction().commit();
+				System.out.println("Hobby: " + personHobby.getHobby());
+				System.out.println("Name: " + person.getFirstName());
+				System.out.println("Last Name: " + person.getLastName());
+				System.out.println("Email: " + person.getEmail());
+			}
+			finally{
+				factory.close();
+			}
+		}
+		//UPDATE
+		else if(menuChoice == 4) {
             try {
                 System.out.println("Enter id of person you want to update:");
                 int id = scanner.nextInt();
@@ -112,7 +131,7 @@ public class Application {
             }
 		}
 		//DELETE
-		else if(menuChoice == 4) {
+		else if(menuChoice == 5) {
             try {
 				System.out.println("Enter id of person you want to delete:");
 				int id = scanner.nextInt();
@@ -127,7 +146,7 @@ public class Application {
             }
 		}
 		//READ ALL
-		else if(menuChoice == 5) {
+		else if(menuChoice == 6) {
 			try {
 				session.getTransaction().begin();
 				List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
@@ -145,7 +164,7 @@ public class Application {
 				factory.close();
 			}
 		}
-		else if(menuChoice == 6) {
+		else if(menuChoice == 7) {
 			System.exit(0);
 		}
 		//SpringApplication.run(Application.class, args);

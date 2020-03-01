@@ -12,6 +12,17 @@ public class PersonHobbyEntity {
     private int id;
     private String hobby;
 
+    @OneToOne(mappedBy = "personHobbyEntity", cascade = CascadeType.ALL)
+    private PersonEntity personEntity;
+
+    public PersonEntity getPersonEntity() {
+        return personEntity;
+    }
+
+    public void setPersonEntity(PersonEntity personEntity) {
+        this.personEntity = personEntity;
+    }
+
     public int getId() {
         return id;
     }
