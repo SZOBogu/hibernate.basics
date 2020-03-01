@@ -5,11 +5,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
-import java.util.Scanner;
 
-public class DebtMain {
-
-    public static void main(String[] args) {
+public class DeleteDebtMain {
+    public static void main(String[] args){
         SessionFactory factory = new Configuration()
                 .addAnnotatedClass(PersonEntity.class)
                 .addAnnotatedClass(PersonHobbyEntity.class)
@@ -19,12 +17,8 @@ public class DebtMain {
 
         try {
             session.getTransaction().begin();
-            PersonEntity personEntity = session.get(PersonEntity.class, 3);
-            List<DebtEntity> debts = personEntity.getDebtEntityList();
-            System.out.println("Person: " + personEntity.getFirstName() + " " + personEntity.getLastName());
-            for(DebtEntity debt : debts){
-                System.out.println(debt);
-            }
+            DebtEntity debt = session.get(DebtEntity.class, 3);
+            session.delete(debt);
             session.getTransaction().commit();
         } finally {
             session.close();

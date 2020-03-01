@@ -101,8 +101,6 @@ public class PersonEntity {
     }
 
     public void add(DebtEntity person){
-//        if(this.debtEntityList == null)
-//            this.debtEntityList = new ArrayList<>();
         this.debtEntityList.add(person);
         person.setPersonEntity(this);
     }
