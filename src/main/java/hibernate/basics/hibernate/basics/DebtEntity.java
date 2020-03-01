@@ -74,4 +74,14 @@ public class DebtEntity {
     public int hashCode() {
         return Objects.hash(id, type, sum);
     }
+
+    @Override
+    public String toString() {
+        return "DebtEntity{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", sum=" + sum +
+                ", personEntity=" + personEntity +
+                '}';
+    }
 }

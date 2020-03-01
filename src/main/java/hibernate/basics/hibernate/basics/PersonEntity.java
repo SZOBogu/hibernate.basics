@@ -106,4 +106,14 @@ public class PersonEntity {
         this.debtEntityList.add(person);
         person.setPersonEntity(this);
     }
+
+    @Override
+    public String toString() {
+        return "PersonEntity{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
