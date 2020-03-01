@@ -23,13 +23,15 @@ public class Application {
 
 		System.out.println("1. Create new person");
 		System.out.println("2. Read person by id");
-		System.out.println("3. Update employee");
-		System.out.println("4. Delete employee");
+		System.out.println("3. Update person");
+		System.out.println("4. Delete person");
 		System.out.println("5. Read all persons");
 		System.out.println("6. Exit");
 		System.out.println("=====================");
 
 		int menuChoice = scanner.nextInt();
+
+		//CREATE
 		if(menuChoice == 1) {
 			try {
 				String skipCatcher = scanner.nextLine();
@@ -52,6 +54,7 @@ public class Application {
 				factory.close();
 			}
 		}
+		//READ
 		else if(menuChoice == 2) {
 			try {
 				System.out.println("Enter id of person you want to check on:");
@@ -67,21 +70,58 @@ public class Application {
 				factory.close();
 			}
 		}
+		//UPDATE
 		else if(menuChoice == 3) {
-			System.exit(0);
+            try {
+                System.out.println("Enter id of person you want to update:");
+                int id = scanner.nextInt();
+                String skipCatcher = scanner.nextLine();
+                System.out.println("Enter name:");
+                String name = scanner.nextLine();
+                System.out.println("Enter last name:");
+                String lastName = scanner.nextLine();
+                System.out.println("Enter email:");
+                String email = scanner.nextLine();
+
+                session.getTransaction().begin();
+                PersonEntity person = session.get(PersonEntity.class, id);
+                person.setFirstName(name);
+                person.setLastName(lastName);
+                person.setEmail(email);
+                session.save(person);
+                session.getTransaction().commit();
+            }
+            finally{
+                factory.close();
+            }
 		}
+		//DELETE
 		else if(menuChoice == 4) {
-			System.exit(0);
+            try {
+                session.getTransaction().begin();
+                List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
+                session.getTransaction().commit();
+                for (PersonEntity personEntity : person) {
+                    System.out.println("Name: " + personEntity.getFirstName());
+                    System.out.println("Last Name: " + personEntity.getLastName());
+                    System.out.println("Email: " + personEntity.getEmail());
+                    System.out.println("============");
+                }
+            }
+            finally{
+                factory.close();
+            }
 		}
+		//READ ALL
 		else if(menuChoice == 5) {
 			try {
 				session.getTransaction().begin();
 				List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
 				session.getTransaction().commit();
-				for(int i = 0; i < person.size(); i++) {
-					System.out.println("Name: " + person.get(i).getFirstName());
-					System.out.println("Last Name: " + person.get(i).getLastName());
-					System.out.println("Email: " + person.get(i).getEmail());
+				for (PersonEntity personEntity : person) {
+					System.out.println("Name: " + personEntity.getFirstName());
+					System.out.println("Last Name: " + personEntity.getLastName());
+					System.out.println("Email: " + personEntity.getEmail());
 					System.out.println("============");
 				}
 			}
