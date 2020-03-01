@@ -1,17 +1,33 @@
 package hibernate.basics.hibernate.basics;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "person", schema = "hibernate_test", catalog = "")
 public class PersonEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Basic
+    @Column(name = "first_name")
     private String firstName;
+
+    @Basic
+    @Column(name = "last_name")
     private String lastName;
+
+    @Basic
+    @Column(name = "email")
     private String email;
 
-    @Id
-    @Column(name = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_hobby_id")
+    private PersonHobbyEntity personHobbyEntity;
+
+
     public int getId() {
         return id;
     }
@@ -20,8 +36,6 @@ public class PersonEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "first_name")
     public String getFirstName() {
         return firstName;
     }
@@ -30,8 +44,6 @@ public class PersonEntity {
         this.firstName = firstName;
     }
 
-    @Basic
-    @Column(name = "last_name")
     public String getLastName() {
         return lastName;
     }
@@ -40,8 +52,6 @@ public class PersonEntity {
         this.lastName = lastName;
     }
 
-    @Basic
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -50,27 +60,29 @@ public class PersonEntity {
         this.email = email;
     }
 
+    @Column(name = "person_hobby_id")
+    public PersonHobbyEntity getPersonHobbyEntity() {
+        return personHobbyEntity;
+    }
+
+    public void setPersonHobbyEntity(PersonHobbyEntity personHobbyEntity) {
+        this.personHobbyEntity = personHobbyEntity;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         PersonEntity that = (PersonEntity) o;
-
-        if (id != that.id) return false;
-        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-
-        return true;
+        return id == that.id &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        return result;
+        return Objects.hash(id, firstName, lastName, email);
     }
 }

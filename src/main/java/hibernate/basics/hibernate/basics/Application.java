@@ -16,7 +16,10 @@ public class Application {
 
 
 	public static void main(String[] args) {
-		SessionFactory factory = new Configuration().addAnnotatedClass(PersonEntity.class).buildSessionFactory();
+		SessionFactory factory = new Configuration()
+				.addAnnotatedClass(PersonEntity.class)
+				.addAnnotatedClass(PersonHobbyEntity.class)
+				.buildSessionFactory();
 		Session session = factory.getCurrentSession();
 
 		Scanner scanner = new Scanner(System.in);
@@ -41,11 +44,17 @@ public class Application {
 				String lastName = scanner.nextLine();
 				System.out.println("Enter email:");
 				String email = scanner.nextLine();
+				System.out.println("Enter hobby:");
+				String hobby = scanner.nextLine();
 
 				PersonEntity person = new PersonEntity();
+				PersonHobbyEntity personHobby = new PersonHobbyEntity();
 				person.setFirstName(name);
 				person.setLastName(lastName);
 				person.setEmail(email);
+				personHobby.setHobby(hobby);
+				person.setPersonHobbyEntity(personHobby);
+
 				session.getTransaction().begin();
 				session.save(person);
 				session.getTransaction().commit();
