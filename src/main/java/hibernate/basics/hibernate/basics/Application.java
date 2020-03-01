@@ -70,10 +70,12 @@ public class Application {
 				int id = scanner.nextInt();
 				session.getTransaction().begin();
 				PersonEntity person = session.get(PersonEntity.class, id);
+				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, person.getPersonHobbyEntity().getId());
 				session.getTransaction().commit();
 				System.out.println("Name: " + person.getFirstName());
 				System.out.println("Last Name: " + person.getLastName());
 				System.out.println("Email: " + person.getEmail());
+				System.out.println("Hobby: " + personHobby.getHobby());
 			}
 			finally{
 				factory.close();
@@ -91,12 +93,17 @@ public class Application {
                 String lastName = scanner.nextLine();
                 System.out.println("Enter email:");
                 String email = scanner.nextLine();
+				System.out.println("Enter hobby:");
+				String hobby = scanner.nextLine();
 
                 session.getTransaction().begin();
                 PersonEntity person = session.get(PersonEntity.class, id);
+				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, person.getPersonHobbyEntity().getId());
                 person.setFirstName(name);
                 person.setLastName(lastName);
                 person.setEmail(email);
+				personHobby.setHobby(hobby);
+				person.setPersonHobbyEntity(personHobby);
                 session.save(person);
                 session.getTransaction().commit();
             }
@@ -110,7 +117,8 @@ public class Application {
 				System.out.println("Enter id of person you want to delete:");
 				int id = scanner.nextInt();
 				session.getTransaction().begin();
-				session.createQuery("delete PersonEntity where id = " + id).executeUpdate();
+				PersonEntity person = session.get(PersonEntity.class, id);
+				session.delete(person);
 				session.getTransaction().commit();
 				System.out.println("Pronto usunieto ");
             }
@@ -123,13 +131,15 @@ public class Application {
 			try {
 				session.getTransaction().begin();
 				List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
-				session.getTransaction().commit();
 				for (PersonEntity personEntity : person) {
+					PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, personEntity.getPersonHobbyEntity().getId());
 					System.out.println("Name: " + personEntity.getFirstName());
 					System.out.println("Last Name: " + personEntity.getLastName());
 					System.out.println("Email: " + personEntity.getEmail());
+					System.out.println("Hobby: " + personHobby.getHobby());
 					System.out.println("============");
 				}
+				session.getTransaction().commit();
 			}
 			finally{
 				factory.close();
