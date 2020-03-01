@@ -98,15 +98,12 @@ public class Application {
 		//DELETE
 		else if(menuChoice == 4) {
             try {
-                session.getTransaction().begin();
-                List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
-                session.getTransaction().commit();
-                for (PersonEntity personEntity : person) {
-                    System.out.println("Name: " + personEntity.getFirstName());
-                    System.out.println("Last Name: " + personEntity.getLastName());
-                    System.out.println("Email: " + personEntity.getEmail());
-                    System.out.println("============");
-                }
+				System.out.println("Enter id of person you want to delete:");
+				int id = scanner.nextInt();
+				session.getTransaction().begin();
+				session.createQuery("delete PersonEntity where id = " + id).executeUpdate();
+				session.getTransaction().commit();
+				System.out.println("Pronto usunieto ");
             }
             finally{
                 factory.close();
