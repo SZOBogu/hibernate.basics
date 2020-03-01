@@ -12,7 +12,8 @@ public class PersonHobbyEntity {
     private int id;
     private String hobby;
 
-    @OneToOne(mappedBy = "personHobbyEntity", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "personHobbyEntity",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private PersonEntity personEntity;
 
     public PersonEntity getPersonEntity() {

@@ -29,8 +29,9 @@ public class Application {
 		System.out.println("3. Read hobby by id");
 		System.out.println("4. Update person");
 		System.out.println("5. Delete person");
-		System.out.println("6. Read all persons");
-		System.out.println("7. Exit");
+		System.out.println("6. Delete hobby");
+		System.out.println("7. Read all persons");
+		System.out.println("8. Exit");
 		System.out.println("=====================");
 
 		int menuChoice = scanner.nextInt();
@@ -61,6 +62,7 @@ public class Application {
 				session.getTransaction().commit();
 			}
 			finally{
+				session.close();
 				factory.close();
 			}
 		}
@@ -130,7 +132,7 @@ public class Application {
                 factory.close();
             }
 		}
-		//DELETE
+		//DELETE PERSON
 		else if(menuChoice == 5) {
             try {
 				System.out.println("Enter id of person you want to delete:");
@@ -145,8 +147,24 @@ public class Application {
                 factory.close();
             }
 		}
-		//READ ALL
+		//DELETE HOBBY
 		else if(menuChoice == 6) {
+			try {
+				System.out.println("Enter id of hobby you want to delete:");
+				int id = scanner.nextInt();
+				session.getTransaction().begin();
+				PersonHobbyEntity personEntityHobby = session.get(PersonHobbyEntity.class, id);
+				personEntityHobby.getPersonEntity().setPersonHobbyEntity(null);
+				session.delete(personEntityHobby);
+				session.getTransaction().commit();
+				System.out.println("Pronto usunieto ");
+			}
+			finally{
+				factory.close();
+			}
+		}
+		//READ ALL
+		else if(menuChoice == 7) {
 			try {
 				session.getTransaction().begin();
 				List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
@@ -164,7 +182,7 @@ public class Application {
 				factory.close();
 			}
 		}
-		else if(menuChoice == 7) {
+		else if(menuChoice == 8) {
 			System.exit(0);
 		}
 		//SpringApplication.run(Application.class, args);
