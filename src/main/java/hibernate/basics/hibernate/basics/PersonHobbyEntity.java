@@ -4,16 +4,21 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "person_hobby", schema = "hibernate_test", catalog = "")
+@Table(name = "person_hobby", schema = "hibernate_test")
 public class PersonHobbyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+    @Basic
+    @Column(name = "hobby")
     private String hobby;
 
-    @OneToOne(mappedBy = "personHobbyEntity",
+    @OneToOne(targetEntity = PersonEntity.class,
+    mappedBy = "personHobbyEntity",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//    @OneToOne(targetEntity = PersonEntity.class)
     private PersonEntity personEntity;
 
     public PersonEntity getPersonEntity() {
@@ -32,8 +37,6 @@ public class PersonHobbyEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "hobby")
     public String getHobby() {
         return hobby;
     }

@@ -1,13 +1,15 @@
 package hibernate.basics.hibernate.basics;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "person", schema = "hibernate_test", catalog = "")
+@Table(name = "person", schema = "hibernate_test")
 public class PersonEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -23,10 +25,15 @@ public class PersonEntity {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = PersonHobbyEntity.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "person_hobby_id")
     private PersonHobbyEntity personHobbyEntity;
 
+    @OneToMany(targetEntity = DebtEntity.class, mappedBy = "personEntity",
+            cascade = {CascadeType.DETACH, CascadeType.MERGE,
+                    CascadeType.PERSIST, CascadeType.REFRESH},
+    fetch = FetchType.EAGER)
+    private List<DebtEntity> debtEntityList = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -69,6 +76,13 @@ public class PersonEntity {
         this.personHobbyEntity = personHobbyEntity;
     }
 
+    public List<DebtEntity> getDebtEntityList() {
+        return debtEntityList;
+    }
+
+    public void setDebtEntityList(List<DebtEntity> debtEntityList) {
+        this.debtEntityList = debtEntityList;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -84,5 +98,12 @@ public class PersonEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, email);
+    }
+
+    public void add(DebtEntity person){
+//        if(this.debtEntityList == null)
+//            this.debtEntityList = new ArrayList<>();
+        this.debtEntityList.add(person);
+        person.setPersonEntity(this);
     }
 }

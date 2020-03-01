@@ -19,6 +19,7 @@ public class Application {
 		SessionFactory factory = new Configuration()
 				.addAnnotatedClass(PersonEntity.class)
 				.addAnnotatedClass(PersonHobbyEntity.class)
+				.addAnnotatedClass(DebtEntity.class)
 				.buildSessionFactory();
 		Session session = factory.getCurrentSession();
 
@@ -46,16 +47,16 @@ public class Application {
 				String lastName = scanner.nextLine();
 				System.out.println("Enter email:");
 				String email = scanner.nextLine();
-				System.out.println("Enter hobby:");
-				String hobby = scanner.nextLine();
+//				System.out.println("Enter hobby:");
+//				String hobby = scanner.nextLine();
 
 				PersonEntity person = new PersonEntity();
-				PersonHobbyEntity personHobby = new PersonHobbyEntity();
+//				PersonHobbyEntity personHobby = new PersonHobbyEntity();
 				person.setFirstName(name);
 				person.setLastName(lastName);
 				person.setEmail(email);
-				personHobby.setHobby(hobby);
-				person.setPersonHobbyEntity(personHobby);
+//				personHobby.setHobby(hobby);
+			//	person.setPersonHobbyEntity(personHobby);
 
 				session.getTransaction().begin();
 				session.save(person);
@@ -73,35 +74,35 @@ public class Application {
 				int id = scanner.nextInt();
 				session.getTransaction().begin();
 				PersonEntity person = session.get(PersonEntity.class, id);
-				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, person.getPersonHobbyEntity().getId());
+//				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, person.getPersonHobbyEntity().getId());
 				session.getTransaction().commit();
 				System.out.println("Name: " + person.getFirstName());
 				System.out.println("Last Name: " + person.getLastName());
 				System.out.println("Email: " + person.getEmail());
-				System.out.println("Hobby: " + personHobby.getHobby());
+//				System.out.println("Hobby: " + personHobby.getHobby());
 			}
 			finally{
 				factory.close();
 			}
 		}
-		//READ HOBBY
-		else if(menuChoice == 3) {
-			try {
-				System.out.println("Enter id of person you want to check on:");
-				int id = scanner.nextInt();
-				session.getTransaction().begin();
-				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, id);
-				PersonEntity person = session.get(PersonEntity.class, personHobby.getPersonEntity().getId());
-				session.getTransaction().commit();
-				System.out.println("Hobby: " + personHobby.getHobby());
-				System.out.println("Name: " + person.getFirstName());
-				System.out.println("Last Name: " + person.getLastName());
-				System.out.println("Email: " + person.getEmail());
-			}
-			finally{
-				factory.close();
-			}
-		}
+//		//READ HOBBY
+//		else if(menuChoice == 3) {
+//			try {
+//				System.out.println("Enter id of person you want to check on:");
+//				int id = scanner.nextInt();
+//				session.getTransaction().begin();
+//				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, id);
+//				PersonEntity person = session.get(PersonEntity.class, personHobby.getPersonEntity().getId());
+//				session.getTransaction().commit();
+//				System.out.println("Hobby: " + personHobby.getHobby());
+//				System.out.println("Name: " + person.getFirstName());
+//				System.out.println("Last Name: " + person.getLastName());
+//				System.out.println("Email: " + person.getEmail());
+//			}
+//			finally{
+//				factory.close();
+//			}
+//		}
 		//UPDATE
 		else if(menuChoice == 4) {
             try {
@@ -114,17 +115,17 @@ public class Application {
                 String lastName = scanner.nextLine();
                 System.out.println("Enter email:");
                 String email = scanner.nextLine();
-				System.out.println("Enter hobby:");
-				String hobby = scanner.nextLine();
+//				System.out.println("Enter hobby:");
+//				String hobby = scanner.nextLine();
 
                 session.getTransaction().begin();
                 PersonEntity person = session.get(PersonEntity.class, id);
-				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, person.getPersonHobbyEntity().getId());
+//				PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, person.getPersonHobbyEntity().getId());
                 person.setFirstName(name);
                 person.setLastName(lastName);
                 person.setEmail(email);
-				personHobby.setHobby(hobby);
-				person.setPersonHobbyEntity(personHobby);
+//				personHobby.setHobby(hobby);
+				//person.setPersonHobbyEntity(personHobby);
                 session.save(person);
                 session.getTransaction().commit();
             }
@@ -148,32 +149,32 @@ public class Application {
             }
 		}
 		//DELETE HOBBY
-		else if(menuChoice == 6) {
-			try {
-				System.out.println("Enter id of hobby you want to delete:");
-				int id = scanner.nextInt();
-				session.getTransaction().begin();
-				PersonHobbyEntity personEntityHobby = session.get(PersonHobbyEntity.class, id);
-				personEntityHobby.getPersonEntity().setPersonHobbyEntity(null);
-				session.delete(personEntityHobby);
-				session.getTransaction().commit();
-				System.out.println("Pronto usunieto ");
-			}
-			finally{
-				factory.close();
-			}
-		}
+//		else if(menuChoice == 6) {
+//			try {
+//				System.out.println("Enter id of hobby you want to delete:");
+//				int id = scanner.nextInt();
+//				session.getTransaction().begin();
+//				PersonHobbyEntity personEntityHobby = session.get(PersonHobbyEntity.class, id);
+//				personEntityHobby.getPersonEntity().setPersonHobbyEntity(null);
+//				session.delete(personEntityHobby);
+//				session.getTransaction().commit();
+//				System.out.println("Pronto usunieto ");
+//			}
+//			finally{
+//				factory.close();
+//			}
+//		}
 		//READ ALL
 		else if(menuChoice == 7) {
 			try {
 				session.getTransaction().begin();
 				List<PersonEntity> person = session.createQuery(" from PersonEntity").getResultList();
 				for (PersonEntity personEntity : person) {
-					PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, personEntity.getPersonHobbyEntity().getId());
+//					PersonHobbyEntity personHobby = session.get(PersonHobbyEntity.class, personEntity.getPersonHobbyEntity().getId());
 					System.out.println("Name: " + personEntity.getFirstName());
 					System.out.println("Last Name: " + personEntity.getLastName());
 					System.out.println("Email: " + personEntity.getEmail());
-					System.out.println("Hobby: " + personHobby.getHobby());
+//					System.out.println("Hobby: " + personHobby.getHobby());
 					System.out.println("============");
 				}
 				session.getTransaction().commit();
