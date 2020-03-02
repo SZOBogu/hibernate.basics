@@ -9,7 +9,6 @@ import java.util.Objects;
 @Table(name = "debt", schema = "hibernate_test")
 public class DebtEntity {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
