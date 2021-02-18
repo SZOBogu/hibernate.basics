@@ -24,15 +24,16 @@ public class PersonEntity {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(targetEntity = PersonHobbyEntity.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_hobby_id")
-    private PersonHobbyEntity personHobbyEntity;
+    @OneToOne(targetEntity = HobbyEntity.class,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "hobby_id")
+    private HobbyEntity hobbyEntity;
 
-    @OneToMany(targetEntity = DebtEntity.class, mappedBy = "personEntity",
+    @OneToMany(targetEntity = ProjectEntity.class, mappedBy = "personEntity",
             cascade = {CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.PERSIST, CascadeType.REFRESH},
-    fetch = FetchType.EAGER)
-    private List<DebtEntity> debtEntityList = new ArrayList<>();
+            fetch = FetchType.EAGER)
+    private List<ProjectEntity> projectEntities;
 
     public int getId() {
         return id;
@@ -65,24 +66,26 @@ public class PersonEntity {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    @Column(name = "person_hobby_id")
-    public PersonHobbyEntity getPersonHobbyEntity() {
-        return personHobbyEntity;
+    @Column(name = "hobby_id")
+    public HobbyEntity getHobbyEntity() {
+        return hobbyEntity;
     }
 
-    public void setPersonHobbyEntity(PersonHobbyEntity personHobbyEntity) {
-        this.personHobbyEntity = personHobbyEntity;
+    public void setHobbyEntity(HobbyEntity hobbyEntity) {
+        this.hobbyEntity = hobbyEntity;
     }
 
-    public List<DebtEntity> getDebtEntityList() {
-        return debtEntityList;
+    public List<ProjectEntity> getProjectEntities() {
+        return projectEntities;
     }
 
-    public void setDebtEntityList(List<DebtEntity> debtEntityList) {
-        this.debtEntityList = debtEntityList;
+    public void setProjectEntities(List<ProjectEntity> projectEntities) {
+        this.projectEntities = projectEntities;
     }
 
+    public void addProjectEntity(ProjectEntity projectEntity){
+        this.projectEntities.add(projectEntity);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,11 +100,6 @@ public class PersonEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, email);
-    }
-
-    public void add(DebtEntity person){
-        this.debtEntityList.add(person);
-        person.setPersonEntity(this);
     }
 
     @Override
